@@ -100,7 +100,7 @@ public class WebController {
 		
 		Applicant c = appRepo.findById(id).orElse(null);
 		model.addAttribute("newApp", c);
-		return "createNewApplicant";
+		return "ApplicantHomePage";
 	}
 	
 	@GetMapping("/deleteJobFromApp/{jobId}")

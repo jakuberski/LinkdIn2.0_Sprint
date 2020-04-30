@@ -2,6 +2,8 @@ package JobPortal.beans;
 
 import java.util.List;
 
+
+
 public class jobListData {
 
 	public Applicant applicant;
