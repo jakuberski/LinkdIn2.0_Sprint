@@ -1,5 +1,6 @@
 package JobPortal.beans;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,8 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,8 +21,8 @@ public class Applicant {
 	private String address;
 	private String educationLevel;
 	
-	@ManyToMany
-	public List<Job> jobsAppliedFor = new ArrayList<Job>();
+	@ManyToMany(fetch = FetchType.EAGER)
+	public Set<Job> jobsAppliedFor;
 
 	public Applicant() {
 		super();
@@ -69,24 +68,22 @@ public class Applicant {
 		this.educationLevel = educationLevel;
 	}
 
-	public List<Job> getJobsAppliedFor() {
+	public Set<Job> getJobsAppliedFor() {
 		return jobsAppliedFor;
 	}
 
-	public void setJobsAppliedFor(List<Job> jobsAppliedFor) {
+	public void setJobsAppliedFor(Set<Job> jobsAppliedFor) {
 		this.jobsAppliedFor = jobsAppliedFor;
 	}
 	
 	public void addJobAppliedFor(Job j) {
-		jobsAppliedFor.add(j);
+		this.jobsAppliedFor.add(j);
+		j.getJobApplicants().add(this);
 	}
 	
 	public void deleteJobAppliedFor(Job j) {
-		jobsAppliedFor.remove(j);
-	}
-	
-	public void addJobListAppliedFor(List<Job> jobs) {
-		jobsAppliedFor.addAll(jobs);
+		this.jobsAppliedFor.remove(j);
+		j.getJobApplicants().remove(this);
 	}
 
 	public Applicant(String username, String name, String educationLevel, String address) {
